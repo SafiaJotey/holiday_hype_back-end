@@ -8,7 +8,8 @@ app.use(cors());
 app.use(express.json());
 
 const port = process.env.PORT || 5000;
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.xldcc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+const uri = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0-shard-00-00.xldcc.mongodb.net:27017,cluster0-shard-00-01.xldcc.mongodb.net:27017,cluster0-shard-00-02.xldcc.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-aqols9-shard-0&authSource=admin&retryWrites=true&w=majority`;
+// const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.xldcc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 // const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.xldcc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 console.log(uri);
 const client = new MongoClient(uri, {
