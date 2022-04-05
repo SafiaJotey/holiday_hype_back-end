@@ -92,7 +92,7 @@ client.connect((err) => {
 });
 
 app.get('/', (req, res) => {
-  res.send('Running Holiday Hype');
+  res.send('Running the Holiday Hype');
 });
 
 app.listen(port, () => {
