@@ -68,7 +68,7 @@ client.connect((err) => {
   // adding new services
   app.post('/addServices', async (req, res) => {
     const service = req.body;
-    console.log(service);
+
     const result = await servicesCollection.insertOne(service);
     res.send(result);
   });
@@ -89,13 +89,15 @@ client.connect((err) => {
   //   const result = await reviewCollection.find({}).toArray();
   //   res.send(result);
   // });
-  //each service load
-  // app.get('/singleProduct/:ServiceId', async (req, res) => {
-  //   const result = await productsCollection
-  //     .find({ _id: ObjectId(req.params.ServiceId) })
-  //     .toArray();
-  //   res.send(result[0]);
-  // });
+  // each service load
+  app.get('/singleProduct/:serviceId', async (req, res) => {
+    console.log('hitted');
+    const result = await servicesCollection
+      .find({ _id: ObjectId(req.params.ServiceId) })
+      .toArray();
+    console.log(result);
+    res.send(result[0]);
+  });
   //order
   // app.post('/confirmOrder', async (req, res) => {
   //   const result = await bookingsCollection.insertOne(req.body);
