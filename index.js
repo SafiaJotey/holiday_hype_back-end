@@ -18,53 +18,9 @@ const client = new MongoClient(uri, {
 
 client.connect((err) => {
   const servicesCollection = client.db('DreamTravel').collection('services');
-  // const bookingsCollection = client.db('oClock').collection('bookings');
-  // const reviewCollection = client.db('oClock').collection('Reviews');
-  // const usersCollection = client.db('oClock').collection('users');
-  // const bestProductCollection = client.db('oClock').collection('bestProduct');
-  //user
-  // app.post('/users', async (req, res) => {
-  //   const user = req.body;
-  //   const result = await usersCollection.insertOne(user);
-  //   console.log(result);
-  //   res.json(result);
-  //   res.send(result);
-  //   console.log(result);
-  // });
-  // app.put("/users", async (req, res) => {
-  //   const email=req.body;
-  //   const filter={
-  //     email:user.email
-  //   };
-  //   options={upsert:true};
-  //   const updateDoc ={$set:user}
-  //   const result=await usersCollection.updateOne(filter, updateDoc,options);
-  //   console.log('put',user);
-  //   res.send(result);
-  //   console.log(result);
-  // });
-  //admin
-  // app.put('/users/admin', async (req, res) => {
-  //   const user = req.body;
-  //   const filter = { email: user.email };
-  //   const updateDoc = { $set: { role: 'admin' } };
-  //   const result = await usersCollection.updateOne(filter, updateDoc);
-  //   console.log('put', user);
-  //   res.json(result);
-  //   // res.send(result);
-  //   console.log(result);
-  // });
-  // app.get('/users/:email', async (req, res) => {
-  //   const email = req.params.email;
-  //   const query = { email: email };
-  //   const user = await usersCollection.findOne(query);
-  //   let isAdmin = false;
-  //   if (user?.role === 'admin') {
-  //     isAdmin = true;
-  //   }
-  //   console.log(isAdmin);
-  //   res.json({ admin: isAdmin });
-  // });
+  const bookingsCollection = client.db('DreamTravel').collection('bookings');
+  const blogCollection = client.db('DreamTravel').collection('blogs');
+
   // adding new services
   app.post('/addServices', async (req, res) => {
     const service = req.body;
@@ -77,85 +33,95 @@ client.connect((err) => {
     const result = await servicesCollection.find({}).toArray();
     res.send(result);
   });
-  // //add review
-  // app.post('/review', async (req, res) => {
-  //   const product = req.body;
-  //   console.log(product);
-  //   const result = await reviewCollection.insertOne(product);
-  //   res.send(result);
-  // });
-  //show review
-  // app.get('/review', async (req, res) => {
-  //   const result = await reviewCollection.find({}).toArray();
-  //   res.send(result);
-  // });
-  // each service load
+
+  //loading single product
   app.get('/singleProduct/:serviceId', async (req, res) => {
     console.log('hitted');
     const result = await servicesCollection
-      .find({ _id: ObjectId(req.params.ServiceId) })
+      .find({ _id: ObjectId(req.params.serviceId) })
       .toArray();
     console.log(result);
     res.send(result[0]);
   });
-  //order
-  // app.post('/confirmOrder', async (req, res) => {
-  //   const result = await bookingsCollection.insertOne(req.body);
-  //   res.send(result);
-  // });
+  // confirm order
+  app.post('/confirmOrder', async (req, res) => {
+    const result = await bookingsCollection.insertOne(req.body);
+    res.send(result);
+  });
   //get myOrder
-  // app.get('/myOrder/:email', async (req, res) => {
-  //   const result = await bookingsCollection
-  //     .find({ Email: req.params.email })
-  //     .toArray();
-  //   res.send(result);
-  //   console.log(result);
-  // });
-  //delete product
-  // app.delete('/deleteProduct/:id', async (req, res) => {
-  //   console.log(req.params.id);
-  //   const result = await productsCollection.deleteOne({
-  //     _id: ObjectId(req.params.id),
-  //   });
-  //   console.log(result);
-  //   res.send(result);
-  // });
+  app.get('/myOrder/:email', async (req, res) => {
+    const result = await bookingsCollection
+      .find({ Email: req.params.email })
+      .toArray();
+    res.send(result);
+    console.log(result);
+  });
   //delete order
-  // app.delete('/deleteOrder/:id', async (req, res) => {
-  //   const result = await bookingsCollection.deleteOne({
-  //     _id: ObjectId(req.params.id),
-  //   });
-  //   res.send(result);
-  // });
+  app.delete('/deleteOrder/:id', async (req, res) => {
+    const result = await bookingsCollection.deleteOne({
+      _id: ObjectId(req.params.id),
+    });
+    res.send(result);
+  });
+  //add a new blog
+  app.post('/addBlog', async (req, res) => {
+    const newBlog = req.body;
+    console.log(newBlog);
+    const result = await blogCollection.insertOne(newBlog);
+    res.send(result);
+  });
+  //show all Blogs
+  app.get('/blogs', async (req, res) => {
+    const result = await blogCollection.find({}).toArray();
+    res.send(result);
+  });
+  //show each blog details
+  app.get('/details/:blogId', async (req, res) => {
+    console.log('hitted');
+    const result = await blogCollection
+      .find({ _id: ObjectId(req.params.blogId) })
+      .toArray();
+    console.log(result);
+    res.send(result[0]);
+  });
+  //get myBlog
+  app.get('/myBlog/:email', async (req, res) => {
+    const result = await blogCollection
+      .find({ email: req.params.email })
+      .toArray();
+    res.send(result);
+    console.log(result);
+  });
+
   // all order
-  // app.get('/allOrders', async (req, res) => {
-  //   const result = await bookingsCollection.find({}).toArray();
-  //   res.send(result);
-  // });
-  // app.post('/addBestProducts', async (req, res) => {
-  //   const product = req.body;
-  //   console.log(bestProductCollection);
-  //   const result = await bestProductCollection.insertOne(product);
-  //   res.send(result);
-  // });
-  // app.get('/getBestProducts', async (req, res) => {
-  //   const result = await bestProductCollection.find({}).toArray();
-  //   res.send(result);
-  // });
+  app.get('/allOrders', async (req, res) => {
+    const result = await bookingsCollection.find({}).toArray();
+    res.send(result);
+  });
+  app.post('/addBestProducts', async (req, res) => {
+    const product = req.body;
+    console.log(bestProductCollection);
+    const result = await bestProductCollection.insertOne(product);
+    res.send(result);
+  });
+  app.get('/getBestProducts', async (req, res) => {
+    const result = await bestProductCollection.find({}).toArray();
+    res.send(result);
+  });
   // update statuses
-  // app.put('/updateStatus/:id', (req, res) => {
-  //   const id = req.params.id;
-  //   const updatedStatus = req.body.status;
-  //   const filter = { _id: ObjectId(id) };
-  //   console.log(updatedStatus);
-  //   bookingsCollection
-  //     .updateOne(filter, {
-  //       $set: { status: updatedStatus },
-  //     })
-  //     .then((result) => {
-  //       res.send(result);
-  //     });
-  // });
+  app.put('/updateStatus/:id', (req, res) => {
+    const id = req.params.id;
+    const updatedStatus = req.body.status;
+    const filter = { _id: ObjectId(id) };
+    console.log(updatedStatus);
+    bookingsCollection
+      .updateOne(filter, {
+        $set: { status: updatedStatus },
+      })
+      .then((result) => {
+        res.send(result);
+      });
+  });
 });
 
 app.get('/', (req, res) => {
