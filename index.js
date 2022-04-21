@@ -63,6 +63,14 @@ client.connect((err) => {
     });
     res.send(result);
   });
+  //payment
+  app.get('/payment/:id', async (req, res) => {
+    const id = req.params.id;
+    console.log(id);
+    const query = { _id: ObjectId(id) };
+    const result = await bookingsCollection.findOne(query);
+    res.json(result);
+  });
   //add a new blog
   app.post('/addBlog', async (req, res) => {
     const newBlog = req.body;
@@ -98,16 +106,7 @@ client.connect((err) => {
     const result = await bookingsCollection.find({}).toArray();
     res.send(result);
   });
-  app.post('/addBestProducts', async (req, res) => {
-    const product = req.body;
-    console.log(bestProductCollection);
-    const result = await bestProductCollection.insertOne(product);
-    res.send(result);
-  });
-  app.get('/getBestProducts', async (req, res) => {
-    const result = await bestProductCollection.find({}).toArray();
-    res.send(result);
-  });
+
   // update statuses
   app.put('/updateStatus/:id', (req, res) => {
     const id = req.params.id;
