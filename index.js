@@ -6,6 +6,7 @@ const ObjectId = require('mongodb').ObjectId;
 const app = express();
 app.use(cors());
 app.use(express.json());
+const stripe = require('stripe')(process.env.STRIPE_SECRET);
 
 const port = process.env.PORT || 5000;
 
@@ -71,6 +72,19 @@ client.connect((err) => {
     const result = await bookingsCollection.findOne(query);
     res.json(result);
   });
+  //update order
+  app.put('/myOrder/:id', async (req, res) => {
+    const id = req.params.id;
+    const payment = req.body;
+    const filter = { _id: ObjectId(id) };
+    const updateDocs = {
+      $set: {
+        payment: payment,
+      },
+    };
+    const result = await bookingsCollection.updateOne(filter, updateDocs);
+    res.json(result);
+  });
   //add a new blog
   app.post('/addBlog', async (req, res) => {
     const newBlog = req.body;
@@ -120,6 +134,22 @@ client.connect((err) => {
       .then((result) => {
         res.send(result);
       });
+  });
+
+  app.post('/create-payment-intent', async (req, res) => {
+    const paymentInfo = req.body;
+    const amount = paymentInfo.price * 100;
+
+    // Create a PaymentIntent with the order amount and currency
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: amount,
+      currency: 'usd',
+      payment_method_types: ['card'],
+    });
+
+    res.send({
+      clientSecret: paymentIntent.client_secret,
+    });
   });
 });
 
