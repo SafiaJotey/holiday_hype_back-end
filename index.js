@@ -154,7 +154,7 @@ client.connect((err) => {
 });
 
 app.get('/', (req, res) => {
-  res.send('Running HolidayHype');
+  res.send('Running Holiday Hype');
 });
 
 app.listen(port, () => {
