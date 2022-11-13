@@ -18,6 +18,8 @@ connectToServer((err) => {
     app.listen(port, () => {
       console.log('Running Server on port', port);
     });
+
+    app.use('/api/v1/packages', packageRoutes);
   } else {
     console.log(err);
   }
