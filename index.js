@@ -10,6 +10,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET);
 
 const packageRoutes = require('./Routes/v1/package.route');
 const bookingRoutes = require('./Routes/v1/booking.route');
+const paymentRoutes = require('./Routes/v1/payment.route');
 const { connectToServer } = require('./utils/dbConnection');
 
 const port = process.env.PORT || 8000;
@@ -22,6 +23,7 @@ connectToServer((err) => {
 
     app.use('/api/v1/packages', packageRoutes);
     app.use('/api/v1/bookings', bookingRoutes);
+    app.use('/api/v1/payment', paymentRoutes);
   } else {
     console.log(err);
   }
