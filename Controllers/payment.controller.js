@@ -1,10 +1,9 @@
 const paymentServices = require('../Services/payment.services');
 
 exports.bookingToPay = async (req, res) => {
+  // console.log(req.params);
   try {
-    const result = await paymentServices.bookingtoPayServices(
-      req.params.packageId
-    );
+    const result = await paymentServices.bookingtoPayServices(req.params.id);
 
     res.status(200).send({
       status: 'success',

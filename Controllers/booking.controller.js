@@ -1,4 +1,5 @@
 const BookingServices = require('../Services/booking.services');
+const ObjectId = require('mongodb').ObjectId;
 
 exports.confirmOrder = async (req, res) => {
   try {
@@ -60,6 +61,32 @@ exports.deleteBooking = async (req, res) => {
     res.status(400).send({
       status: 'fail',
       message: 'Cannot delete a booking ',
+      error: error.message,
+    });
+  }
+};
+exports.updateBooking = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const payment = req.body;
+    const filter = { _id: ObjectId(id) };
+    const updateDocs = {
+      $set: {
+        payment: payment,
+      },
+    };
+    const booking = await BookingServices.updateBookingService(
+      filter,
+      updateDocs
+    );
+    res.status(200).send({
+      status: 'success',
+      message: 'successfully update a booking ',
+    });
+  } catch (error) {
+    res.status(400).send({
+      status: 'fail',
+      message: 'Cannot update a booking ',
       error: error.message,
     });
   }

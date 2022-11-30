@@ -1,10 +1,13 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET);
+const { getDb } = require('../utils/dbConnection');
+const ObjectId = require('mongodb').ObjectId;
 exports.bookingtoPayServices = async (bookingId) => {
   const db = getDb();
+  console.log(bookingId);
 
   const result = await db
     .collection('bookings')
-    .findOne({ _id: ObjectId(bookingId) })
+    .find({ _id: ObjectId(bookingId) })
     .toArray();
   return result;
 };

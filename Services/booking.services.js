@@ -26,3 +26,10 @@ module.exports.deleteBookingService = async (id) => {
   });
   return result;
 };
+module.exports.updateBookingService = async (filter, updateDocs) => {
+  const db = getDb();
+
+  const result = await db.collection('booking').updateOne(filter, updateDocs);
+
+  return result;
+};
