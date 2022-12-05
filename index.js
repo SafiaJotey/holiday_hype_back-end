@@ -31,6 +31,6 @@ connectToServer((err) => {
   }
 });
 
-// app.get('/', (req, res) => {
-//   res.send('Running Holiday Hype');
-// });
+app.get('/', (req, res) => {
+  res.send('Running Holiday Hype');
+});
