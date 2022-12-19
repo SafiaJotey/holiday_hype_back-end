@@ -67,6 +67,7 @@ exports.deleteBooking = async (req, res) => {
 };
 exports.updateBooking = async (req, res) => {
   try {
+    // console.log(req.params.id, req.body);
     const id = req.params.id;
     const payment = req.body;
     const filter = { _id: ObjectId(id) };
