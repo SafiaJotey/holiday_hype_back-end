@@ -12,6 +12,7 @@ const packageRoutes = require('./Routes/v1/package.route');
 const bookingRoutes = require('./Routes/v1/booking.route');
 const paymentRoutes = require('./Routes/v1/payment.route');
 const blogRoutes = require('./Routes/v1/blog.route');
+const userRoutes = require('./Routes/v1/user.route');
 const { connectToServer } = require('./utils/dbConnection');
 
 const port = process.env.PORT || 8000;
@@ -26,6 +27,7 @@ connectToServer((err) => {
     app.use('/api/v1/bookings', bookingRoutes);
     app.use('/api/v1/payment', paymentRoutes);
     app.use('/api/v1/blog', blogRoutes);
+    app.use('/api/v1/user', userRoutes);
   } else {
     console.log(err);
   }
