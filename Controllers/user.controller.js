@@ -23,6 +23,7 @@ exports.getUser = async (req, res) => {
 exports.createUser = async (req, res) => {
   try {
     const userInfo = req.body;
+    // console.log(userInfo);
 
     const user = await userServices.createUserService(userInfo);
     res.send({
@@ -39,9 +40,11 @@ exports.createUser = async (req, res) => {
   }
 };
 exports.getCurrentUser = async (req, res) => {
+  // console.log(req.params.email);
+
   try {
     const result = await userServices.currentUserService(req.params.email);
-
+    // console.log(result);
     res.status(200).send({
       status: 'success',
       message: ' Successfully get  package by id',
@@ -58,7 +61,7 @@ exports.getCurrentUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const user = req.body;
-    console.log(user);
+    // console.log(user);
     const filter = { _id: ObjectId(user.id) };
     const updateDocs = {
       $set: {

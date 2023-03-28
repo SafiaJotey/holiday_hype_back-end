@@ -50,7 +50,7 @@ exports.getMyBlogs = async (req, res) => {
   }
 };
 exports.createBlog = async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   try {
     const blogs = await BlogServices.createBlogService(req.body);
     res.status(200).send({

@@ -12,14 +12,19 @@ exports.getUserServices = async (bookingId) => {
   return result;
 };
 exports.currentUserService = async (email) => {
+  // console.log(email);
   const db = getDb();
 
   const result = await db.collection('users').find({ email: email }).toArray();
+  // console.log(result);
   return result;
 };
 
 exports.createUserService = async (userInfo) => {
   const db = getDb();
+  const user = getUserServices(userInfo.email);
+  if (user) {
+  }
   const result = await db.collection('users').insertOne(userInfo);
   return result;
 };
