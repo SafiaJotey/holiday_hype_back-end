@@ -3,7 +3,7 @@ const { getDb } = require('../utils/dbConnection');
 const ObjectId = require('mongodb').ObjectId;
 exports.getUserServices = async (bookingId) => {
   const db = getDb();
-  console.log(bookingId);
+  // console.log(bookingId);
 
   const result = await db
     .collection('bookings')
